@@ -2,33 +2,44 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-dockerfile
 {
   "name": "RVX (Ubuntu 24.04)",
-  "build": {
-    // Sets the run context to one level up instead of the .devcontainer folder.
-    "context": "..",
-    // Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-    "dockerfile": "Dockerfile"
-  },
+  "image": "rafaelcalcada/rvx:latest",
   "runArgs": [
     "--hostname",
-    "dev-container"
+    "devcontainer"
   ],
   "customizations": {
     "vscode": {
       "settings": {
+        // Editor settings
+        "editor.tabSize": 2,
+        "editor.detectIndentation": false,
+        "editor.formatOnSave": true,
+        // Python settings
+        "python.defaultInterpreterPath": "/home/rvx/.venv/bin/python",
+        "python.terminal.activateEnvironment": false,
+        // Verilog settings
         "verilog.ctags.path": "/usr/local/bin/ctags",
         "verilog.linting.linter": "verilator",
         "verilog.linting.verilator.includePath": [
-          "${workspaceFolder}/rtl/"
+          "/workspaces/rvx/rtl/",
+          "/workspaces/rvx/rtl/core/",
+          "/workspaces/rvx/rtl/peripherals/",
+          "/workspaces/rvx/rtl/memory/",
+          "/workspaces/rvx/rtl/interconnect/",
+          "/workspaces/rvx/tests/testbenches/"
         ],
         "verilog.linting.verilator.arguments": "-Wall --timing",
-        "editor.tabSize": 2,
-        "editor.detectIndentation": false,
         "verilog.formatting.verilogHDL.formatter": "verible-verilog-format",
-        "verilog.formatting.veribleVerilogFormatter.arguments": "--flagfile=etc/.verible-format",
-        "editor.formatOnSave": true,
+        "verilog.formatting.veribleVerilogFormatter.arguments": "--flagfile=.devcontainer/.verible-format",
+        // C/C++ settings
+        "C_Cpp.clang_format_style": "file:/workspaces/rvx/.devcontainer/.clang-format",
+        "C_Cpp.default.compilerPath": "/usr/local/bin/riscv32-unknown-elf-gcc",
+        // CMake settings
+        "cmake.configureOnOpen": false,
         "cmake.ignoreCMakeListsMissing": true,
-        "python.defaultInterpreterPath": "/opt/venv/bin/python",
-        "C_Cpp.clang_format_style": "file:${workspaceFolder}/etc/.clang-format"
+        "cmake.sourceDirectory": "",
+        "cmake.automaticReconfigure": false,
+        "cmake.enableAutomaticKitScan": false
       },
       "extensions": [
         "ms-vscode.cpptools-extension-pack",
@@ -38,10 +49,12 @@
         "ms-python.debugpy",
         "ms-python.vscode-pylance",
         "daohong-emilio.yash",
-        "avetis.tokyo-night",
+        "enkia.tokyo-night",
         "ms-dotnettools.vscode-dotnet-runtime",
         "ms-azuretools.vscode-docker",
-        "mshr-h.veriloghdl"
+        "mshr-h.veriloghdl",
+        "zhwu95.riscv",
+        "lramseyer.vaporview"
       ]
     }
   },

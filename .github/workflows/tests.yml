@@ -1,0 +1,26 @@
+name: RVX Tests
+
+on:
+  push:
+    branches:
+      - "**"   # run on every branch
+  pull_request:
+    branches:
+      - "**"   # run on every branch
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    container:
+      image: rafaelcalcada/rvx:latest
+      options: --user root
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build and run tests
+        working-directory: tests
+        run: |
+          make --quiet
